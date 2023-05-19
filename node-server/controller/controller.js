@@ -91,7 +91,7 @@ router.post('/recovery', async (req, res, next) => {
         const {code, password, email} = req.body
         const currentUser = (await knex.select('*').from('Users').where('Email', email))[0]
         if(!currentUser) throw ApiError.UnauthorizedError()
-        if(code !== currentUser.code) throw ApiError.BadRequest('Неверный код')
+        if(+code !== currentUser.code) throw ApiError.BadRequest('Неверный код')
         const hashPassword = await bcrypt.hash(password, 3)
         const updateData = {
             Password: hashPassword,
@@ -247,10 +247,15 @@ router.get('/refresh', async (req, res, next) => {
 
 router.get('/users', authMiddleware, async (req, res, next) => {
     try {
-        const users = await knex
-            .select('*')
-            .from('Users')
-
+        const users = await knex.select('*').from('Users')
+        const orders = await knex('Products').join('orders', 'Products.ProductID', '=', 'orders.product_id').select('Name', 'Price', 'orders.date', 'orders.user_id')
+        
+        users.forEach(user => {
+            user.orders = []
+            orders.forEach(order => {
+                if(+user.UserID === +order.user_id) user.orders.push(order)
+            })
+        })
         res.send(users)
     } catch (e) {
         next(e)
