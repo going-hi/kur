@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../styles/globalStyles.css";
+import UsersTableItem from "./UsersTableItem";
 const UsersTable = (props) => {
-  console.log(props.users);
   return (
     <div>
       <h3>Все пользователи</h3>
@@ -14,12 +14,12 @@ const UsersTable = (props) => {
             <th>FIO</th>
             <th>Activation</th>
             <th>Admin</th>
+            <th>Заказы</th>
           </tr>
         </thead>
         <tbody>
           {props.users.map(({ ...props }, index) => {
-            console.log(props);
-            return <UsersTableItem props={props} key={index} />;
+            return <UsersTableItem props={props} key={props.UserID} />;
           })}
         </tbody>
       </table>
@@ -28,16 +28,3 @@ const UsersTable = (props) => {
 };
 
 export default UsersTable;
-
-const UsersTableItem = ({ props }) => {
-  return (
-    <tr>
-      <td>{props.UserID}</td>
-      <td>{props.Login}</td>
-      <td>{props.Email}</td>
-      <td>{props.FIO}</td>
-      <td>{props.Activation ? "Да" : "Нет"}</td>
-      <td>{props.Admin ? "Да" : "Нет"}</td>
-    </tr>
-  );
-};

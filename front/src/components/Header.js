@@ -18,7 +18,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { logout } = AuthService();
   const dispatch = useDispatch();
-
+  console.log(authForm);
   useEffect(() => {
     if (curUser) closeModal();
   }, [curUser]);
@@ -152,7 +152,7 @@ const Header = () => {
                     dispatch(loginUser({}));
                     dispatch(setAuth(false));
                     navigate("/");
-                    setAuthForm(false);
+                    setAuthForm(`auth`);
                   }}
                   className={"vhod"}
                 >

@@ -1,12 +1,15 @@
 import $api from "../http";
-import React from 'react';
 
 const AdminService = () => {
-    const fetchUsers = async () => {
-        return $api.get('/users')
-    }
+  const fetchUsers = async () => {
+    return $api.get("/users");
+  };
 
-    return {fetchUsers}
-}
+  const changeRole = async (id, isAdmin) => {
+    return await $api.post("/set-role", { id, isAdmin });
+  };
 
-export default AdminService
+  return { fetchUsers, changeRole };
+};
+
+export default AdminService;
