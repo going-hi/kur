@@ -85,7 +85,7 @@ router.post('/recovery-code', async (req, res, next) => {
 //     "code": number,
 //     "password": "string"
 // }
-router.post('/recovery', authMiddleware, async (req, res, next) => {
+router.post('/recovery', async (req, res, next) => {
     try {
         // * password - новый пароль
         const {code, password} = req.body
