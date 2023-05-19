@@ -66,12 +66,13 @@ router.post('/set-password/:id', async (req, res, next) => {
 })
 
 // * Запрос на сброс пароля
-router.get('/recovery', authMiddleware, async (req, res, next) => {
+router.post('/recovery-code', async (req, res, next) => {
     try {
-        const {UserID, Email} = req.user
+        const {email} = req.body
+        const currentUser = (await knex.select('*').from('Users').where('Email', email))[0]
         const code = Math.floor(100000 + Math.random() * 900000)
-        await knex('Users').update('code', code).where('UserID', UserID)
-        await mailService.sendCode(Email, code)
+        await knex('Users').update('code', code).where('UserID', currentUser.UserID)
+        await mailService.sendCode(email, code)
         res.status(204).end()
     }catch(e) {
         next(e)
