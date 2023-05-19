@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { loginUser, setAuth } from "../actions/actions";
 
 const FormRecoveryCode = ({ setAuthForm }) => {
-  // const dispatch = useDispatch()
   const { recoveryCode } = AuthService();
   const [error, setError] = useState("");
 
@@ -75,7 +74,7 @@ const FormRecoveryCode = ({ setAuthForm }) => {
                 disabled={!(isValid && dirty) || isSubmitting}
                 onClick={async () => {
                   isSubmitting = true;
-                  await handleSubmit(values.email, values.password);
+                  await handleSubmit(values.email);
                   setTimeout(() => resetForm(), 500);
                 }}
                 className="register-button"

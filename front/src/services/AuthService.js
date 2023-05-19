@@ -19,7 +19,7 @@ const AuthService = () => {
   };
 
   const recoveryCode = async (email) => {
-    return $api.post(`/recovery-code/`, { email });
+    return await $api.post(`/recovery-code/`, { email });
   };
 
   const recoveryPassword = async (code, password) => {

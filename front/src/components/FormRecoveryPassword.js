@@ -88,7 +88,7 @@ const FormRecoveryPassword = ({ setAuthForm }) => {
                 disabled={!(isValid && dirty) || isSubmitting}
                 onClick={async () => {
                   isSubmitting = true;
-                  await handleSubmit(values.email, values.password);
+                  await handleSubmit(values.code, values.password);
                   setTimeout(() => resetForm(), 500);
                 }}
                 className="register-button"
