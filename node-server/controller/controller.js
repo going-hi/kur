@@ -14,7 +14,7 @@ const ApiError = require("../exeptions/api-error");
 const { body, validationResult } = require("express-validator");
 
 const authMiddleware = require("../middlewares/auth-middleware");
-
+const adminMiddleware = require("../middlewares/admin-middleware.js")
 //all-user-routes
 // router.get("/photo/:PhotoID", async (req, res) => {  const id = req.params.PhotoID || 0;
 //
@@ -26,6 +26,28 @@ const authMiddleware = require("../middlewares/auth-middleware");
 //         console.error(error);
 //         res.sendStatus(500);
 //     }});
+
+
+
+// * body
+// {
+//     "id": number,
+//     "isAdmin": boolean
+// }
+// *set role
+router.post('/set-role', authMiddleware, adminMiddleware, async (req, res, next) => {
+    try{
+        console.log(req.body)
+        const {isAdmin, id} = req.body
+        const currentUser = (await knex.select('*').from('Users').where('UserID', id))[0]
+        if(!currentUser) throw ApiError.BadRequest('Пользователь с таким id не найден')
+        await knex("Users").update("Admin", isAdmin).where('UserID', id);
+        res.status(204).end();
+    }catch(e) {
+        next(e)
+    }
+})
+
 
 router.get("/products", async (req, res, next) => {
   try {
