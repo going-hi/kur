@@ -88,8 +88,8 @@ router.post('/recovery-code', async (req, res, next) => {
 router.post('/recovery', async (req, res, next) => {
     try {
         // * password - новый пароль
-        const {code, password} = req.body
-        const currentUser = (await knex.select('*').from('Users').where('code', code))[0]
+        const {code, password, email} = req.body
+        const currentUser = (await knex.select('*').from('Users').where('Email', email))[0]
         if(!currentUser) throw ApiError.UnauthorizedError()
         if(code !== currentUser.code) throw ApiError.BadRequest('Неверный код')
         const hashPassword = await bcrypt.hash(password, 3)
